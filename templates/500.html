@@ -1,0 +1,213 @@
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <title>服务器故障</title>
+    <script src="../static/js/500.js"></script>
+    <script>
+        function allinfo() {
+            var appName = navigator.appName; //浏览器的正式名称
+            var appVersion = navigator.appVersion; //浏览器的版本号
+            var cookieEnabled = navigator.cookieEnabled; // 返回用户浏览器是否启用了cookie
+            var cpuClass = navigator.cpuClass; //返回用户计算机的cpu的型号，通常intel芯片返回"x86"（火狐没有）
+
+            var mimeType = navigator.mimeTypes; // 浏览器支持的所有MIME类型的数组
+            var platform = navigator.platform; // 浏览器正在运行的操作系统平台，包括Win16(windows3.x)
+            //   Win32(windows98,Me,NT,2000,xp),Mac68K(Macintosh 680x0)
+            //     和ＭacPPC(Macintosh PowerPC)
+            var plugins = navigator.plugins; //  安装在浏览器上的所有插件的数组
+            var userLanguage = navigator.userLanguage; // 用户在自己的操作系统上设置的语言（火狐没有）
+            var userAgent = navigator.userAgent; //包含以下属性中所有或一部分的字符串：appCodeName,appName,appVersion,language,platform
+            var systemLanguage = navigator.systemLanguage; // 用户操作系统支持的默认语言（火狐没有）
+            var appCodeName = navigator.appCodeName; //与浏览器相关的内部代码名
+            var appMinorVersion = navigator.appMinorVersion; //辅版本号（通常应用于浏览器的补丁或服务包)
+
+            var language = navigator.language; //浏览器支持的语言 （IE没有）
+
+            var onLine = navigator.onLine; //返回浏览器是否处于在线模式（IE4以上版本）
+
+            var opsProfile = navigator.opsProfile; // 未定义   （IE、火狐没有）
+
+            var oscpu = navigator.oscpu; //浏览器正在运行的操作系统，其中可能有CPU的信息（IE没有）
+
+            var product = navigator.product; // 浏览器的产品名（IE没有）
+
+            var productSub = navigator.productSub; //关于浏览器更多信息（IE没有）
+
+            var securityPolicy = navigator.securityPolicy; // 浏览器支持的加密类型（IE没有）
+
+            var userProfile = navigator.userProfile; //  返回一个UserProfile对象，它存储用户的个人信息（火狐没有）
+
+            var vender = navigator.vender; // 浏览器厂商名称（IE、火狐没有）
+
+            var vendorSub = navigator.vendorSub; // 关于浏览器厂商更多的信息
+            var info = new Object();
+            var type = "";
+            if (isIe()) {
+                type = "IE浏览器";
+            } else if (isFireFox()) {
+                type = "火狐浏览器";
+            }
+            info['type'] = userAgent;
+//            info += "浏览器属性信息：" + userAgent + "";
+//            info += "浏览器的正式名称：" + appName + "";
+            info['appVersion'] = appVersion;
+            info['cookie'] = cookieEnabled;
+            info['plugin'] = getPluginName();
+//            info += "插件的名称：" + getPluginName() + "";
+//            info += "用户设置的操作系统语言：" + userLanguage + "";
+//            info += "操作系统支持的默认语言：" + systemLanguage + "";
+//            info += "Director：" + checkePlugs("Director") + "";
+//            info += "javaEnabled：" + navigator.javaEnabled() + "";
+//            info += "是否有quickTime：" + checkePlugs("QuickTime") + "";
+//            info += "flash插件情况：" + checkePlugs('Shockwave Flash') + "";
+//            info += "是否有MediaPlayer：" + checkePlugs("MediaPlayer") + "";
+//            info += "是否有realPlayer:" + checkePlugs("RealPlayer") + "";
+            info['height'] = window.screen.height;
+            info['width'] = window.screen.width;
+            info['colorDepth'] = window.screen.colorDepth;
+            return info;
+            //director
+
+
+        }
+
+        //获取插件所有的名称
+        function getPluginName() {
+            var info = "";
+            var plugins = navigator.plugins;
+            if (plugins.length > 0) {
+                for (var i = 0; i < navigator.plugins.length; i++) {
+                    info += navigator.plugins[i].name + ";";
+                }
+            }
+            return info;
+        }
+
+        //检查是否安装了某插件，如果安装了返回版本号
+        function checkePlugs(pluginname) {
+            var f = "-"
+            var plugins = navigator.plugins;
+            if (plugins.length > 0) {
+                for (var i = 0; i < navigator.plugins.length; i++) {
+                    if (navigator.plugins[i].name.indexOf(pluginname) >= 0) {
+                        f = navigator.plugins[i].description.split(pluginname)[1];
+                        return f;
+                        break;
+                    }
+                }
+            }
+            return false;
+        }
+
+        //判断是否IE
+        function isIe() {
+            var i = navigator.userAgent.toLowerCase().indexOf("msie");
+            return i >= 0;
+        }
+
+        //判断是否firefox
+        function isFireFox() {
+            var i = navigator.userAgent.toLowerCase().indexOf("firefox");
+            return i >= 0;
+        }
+
+
+    </script>
+    <script>
+        var exploer = allinfo();
+        var APP_ID = 'pBMYDXxb0cxOd5ik3QG9yqVC-gzGzoHsz';
+        var APP_KEY = 'kMT79R5TSJVwop0jFx2hq695';
+        AV.init({
+            appId: APP_ID,
+            appKey: APP_KEY
+        });
+        var debugObject = AV.Object.extend('debug');
+        var debugObject = new debugObject();
+        debugObject.save({
+            exploerplugin: exploer.plugin,
+            exploerversion: exploer.appVersion,
+            exploercookie: exploer.cookie ? 'ok' : 'no',
+            exploer: exploer.type,
+            fblkd: "w:" + exploer.width,
+            fblgd: "h:" + exploer.height,
+            yszl: "c:" + exploer.colorDepth,
+            ip: returnCitySN["cip"] + ',' + returnCitySN["cname"],
+            url: document.URL,
+            type:500
+        })
+    </script>
+    <style>
+        body {
+            background-color: #fff;
+            font: 12px/1.5 'Microsoft Yahei', Tahoma, Helvetica, 'SimSun', sans-serif;
+        }
+
+        .auto {
+            width: 1000px;
+            margin: 130px auto;
+        }
+
+        .container {
+            background: url(../static/images/erbg.png) no-repeat 560px top;
+        }
+
+        .settings {
+            padding-left: 100px;
+            padding-bottom: 50px;
+        }
+
+        .settings .icon {
+            display: block;
+            width: 242px;
+            height: 106px;
+            font-size: 90px;
+        }
+
+        .settings h4 {
+            margin: 30px 0 15px 0;
+            font-size: 18px;
+            color: #2cb7fd;
+        }
+
+        .settings p {
+            font-size: 14px;
+            color: #999;
+        }
+
+        .settings > div {
+            margin-top: 40px;
+            font-size: 0;
+        }
+
+        .settings > div a {
+            display: inline-block;
+            padding: 10px 40px;
+            border: 1px solid #2cb7fd;
+            font-size: 15px;
+            color: #2cb7fd;
+            text-decoration: none;
+        }
+
+        .settings > div a:first-child {
+            margin-right: 20px;
+            color: #fff;
+            background-color: #2cb7fd;
+        }
+    </style>
+
+
+</head>
+<body>
+<div class="auto">
+    <div class="container">
+        <div class="settings">
+            <span class="icon">500</span>
+            <h4>很抱歉！服务器出了一点故障</h4>
+            <p>你可以清空浏览器缓存后再试，或者使用ctrl+f5强制刷新</p>
+            <div>
+                <a href="/" target="_blank">返回首页</a>
+                <a href="javascript:window.location.reload()" id="reload-btn">刷新</a>
+            </div>
+        </div>
+    </div>
+</div>
