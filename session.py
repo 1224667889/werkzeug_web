@@ -58,18 +58,4 @@ class Session:
     def get(self, request, item):
         return self.__session_map__.get(get_session_id(request), {}).get(item, None)
 
-class AuthSession:
-    @classmethod
-    def auth_session(cls, f, *args, **options):
-
-        def decorator(obj, request):
-            return f(obj, request) if cls.auth_logic(request, *args, **options) else cls.auth_fail_callback(request, *args, **options)
-        return decorator
-
-    @staticmethod
-    def auth_logic(request, *args, **options):
-        raise NotImplementedError
-    @staticmethod
-    def auth_fail_callback(request, *args, **options):
-        raise NotImplementedError
 session = Session()
